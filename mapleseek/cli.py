@@ -60,7 +60,7 @@ def main(
     try:
         # Initialize components
         if verbose:
-            ui.show_info("Initializing parser...")
+            ui.show_info("Initializing mapleir parser...")
         parser = MapleIRParser()
 
         if verbose:
