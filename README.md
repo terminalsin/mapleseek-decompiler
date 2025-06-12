@@ -1,4 +1,6 @@
-<img src=".docs/logo.png" width="100px"/>
+<p align="center">
+<img src=".docs/logo.png" width="150px"/>
+</p>
 
 # MapleSeek
 
