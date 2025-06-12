@@ -47,6 +47,91 @@ It is important to note the following things about generated class files:
 - Synthetic methods that are denoted with a lambda$ prefix and a $ suffix are lambda expressions 
   should be decompiled as lambda expressions
 
+# Optimization Rules
+
+### Arrays with assignment
+
+When you see an array with an assignment, you should decompile it as a new array.
+
+```java
+int[] array = new int[10];
+array[0] = 1;
+array[1] = 2;
+...
+array[9] = 10;
+```
+It should be decompiled as:
+
+```java
+int[] array = {1, 2, 3, 4, 5, 6, 7, 8, 9, 10};
+```
+### Lambda expressions
+
+When you see a lambda expression, you should decompile it as a lambda expression.
+
+```java
+this.tests.forEach(Test::lambda$new$0);
+...
+
+private void lambda$new$0(Class<?> clazz) {
+    try {
+        Test test = (Test) clazz.newInstance();
+        this.tests.add(test);
+    } catch (InstantiationException | IllegalAccessException e) {
+        Main.LOG.println("Failed to instantiate test: " + clazz.getName() + " - " + e.getMessage());
+    }
+}
+```
+It should be decompiled as:
+```java
+this.tests.forEach(test -> {
+    try {
+        Test test = (Test) clazz.newInstance();
+        this.tests.add(test);
+    } catch (InstantiationException | IllegalAccessException e) {
+        Main.LOG.println("Failed to instantiate test: " + clazz.getName() + " - " + e.getMessage());
+    }
+});
+```
+
+### Enums implicit methods
+
+When you see an enum, you should decompile it as a enum.
+
+```java
+public enum Operation {
+    A,
+    B,
+    C;
+    
+    private static final Operation[] $VALUES = {A, B, C};
+
+    public static Operation[] values() {
+        return $VALUES;
+    }
+
+    public static Operation valueOf(String name) {
+        return Enum.valueOf(Operation.class, name);
+    }
+
+    public static Operation valueOf(int ordinal) {
+        return Operation.values()[ordinal];
+    }
+}
+```
+
+The values() and valueOf() methods are implicit and should not be generated.
+
+It should be decompiled as:
+```java
+public enum Operation {
+    A,
+    B,
+    C
+}
+
+```
+
 When you have all the context you need, return a JSON object with this exact structure:
 {
     "class_name": "fully.qualified.ClassName",
