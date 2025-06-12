@@ -1,0 +1,135 @@
+# MapleIR SSA IR Dump for AI Analysis
+# Generated from: Evaluator-1.0-SNAPSHOT.jar
+# Total classes: 29
+# Total methods with IR: 134
+
+## Class: dev/sim0n/evaluator/operation/DoubleMathOperation$3
+Super: dev/sim0n/evaluator/operation/DoubleMathOperation
+Interfaces: []
+Access: final synchronized enum
+
+### Method: <init>(Ljava/lang/String;ILjava/lang/String;)V
+Access: 
+
+```ssa
+BLOCK A:
+   synth(lvar0_0 = lvar0_0);
+   synth(lvar1_0 = lvar1_0);
+   synth(lvar2_0 = lvar2_0);
+   synth(lvar3_0 = lvar3_0);
+   
+BLOCK B:
+   _consume(lvar0_0.<init>(lvar1_0, lvar2_0, lvar3_0, nullconst));
+   return;
+   
+
+```
+
+### Method: evaluate(DD)D
+Access: public
+
+```ssa
+BLOCK A:
+   synth(lvar0_0 = lvar0_0);
+   synth(lvar1_0 = lvar1_0);
+   synth(lvar3_0 = lvar3_0);
+   
+BLOCK B:
+   return {lvar1_0 / lvar3_0};
+   
+
+```
+
+
+## Class: dev/sim0n/evaluator/operation/DoubleMathOperation$2
+Super: dev/sim0n/evaluator/operation/DoubleMathOperation
+Interfaces: []
+Access: final synchronized enum
+
+### Method: <init>(Ljava/lang/String;ILjava/lang/String;)V
+Access: 
+
+```ssa
+BLOCK B:
+   _consume(lvar0_0.<init>(lvar1_0, lvar2_0, lvar3_0, nullconst));
+   return;
+   
+BLOCK A:
+   synth(lvar0_0 = lvar0_0);
+   synth(lvar1_0 = lvar1_0);
+   synth(lvar2_0 = lvar2_0);
+   synth(lvar3_0 = lvar3_0);
+   
+
+```
+
+### Method: evaluate(DD)D
+Access: public
+
+```ssa
+BLOCK B:
+   return {lvar1_0 - lvar3_0};
+   
+BLOCK A:
+   synth(lvar0_0 = lvar0_0);
+   synth(lvar1_0 = lvar1_0);
+   synth(lvar3_0 = lvar3_0);
+   
+
+```
+
+
+## Class: dev/sim0n/evaluator/util/stats/Calculations
+Super: java/lang/Object
+Interfaces: []
+Access: public synchronized
+
+### Method: <init>()V
+Access: public
+
+```ssa
+BLOCK A:
+   synth(lvar0_0 = lvar0_0);
+   
+BLOCK B:
+   _consume(lvar0_0.<init>());
+   svar1_0 = new java.util.LinkedList;
+   _consume(svar1_0.<init>());
+   lvar0_0.intCalculations = svar1_0;
+   svar1_1 = new java.util.LinkedList;
+   _consume(svar1_1.<init>());
+   lvar0_0.doubleCalculations = svar1_1;
+   return;
+   
+
+```
+
+### Method: store(I)I
+Access: public
+
+```ssa
+BLOCK B:
+   svar0_2 = lvar0_0.intCalculations.add(java.lang.Integer.valueOf(lvar1_0));
+   return lvar1_0;
+   
+BLOCK A:
+   synth(lvar0_0 = lvar0_0);
+   synth(lvar1_0 = lvar1_0);
+   
+
+```
+
+### Method: store(D)D
+Access: public
+
+```ssa
+BLOCK A:
+   synth(lvar0_0 = lvar0_0);
+   synth(lvar1_0 = lvar1_0);
+   
+BLOCK B:
+   svar0_2 = lvar0_0.doubleCalculations.add(java.lang.Double.valueOf(lvar1_0));
+   return lvar1_0;
+   
+
+``` 

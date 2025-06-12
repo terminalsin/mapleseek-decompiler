@@ -1,0 +1,19 @@
+[project]
+name = "mapleseek"
+version = "0.1.0"
+description = "MapleIR to Java source code decompiler using DeepSeek/OpenAI"
+readme = "README.md"
+requires-python = ">=3.10"
+dependencies = [
+    "openai>=1.86.0",
+    "click>=8.2.1",
+    "rich>=13.7.0",
+    "textual>=0.41.0",
+]
+
+[project.scripts]
+mapleseek = "mapleseek.cli:main"
+
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
