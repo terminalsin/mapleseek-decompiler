@@ -33,6 +33,11 @@ from .ui import EnhancedUI
     default=True,
     help="Enable/disable streaming display (default: enabled)",
 )
+@click.option(
+    "--show-info",
+    is_flag=True,
+    help="Show agent and MCP server information",
+)
 def main(
     input_file: str,
     output_dir: str,
@@ -40,6 +45,7 @@ def main(
     api_key: str,
     verbose: bool,
     stream: bool,
+    show_info: bool,
 ):
     """
     MapleSeek: Convert MapleIR SSA IR dumps to Java source code using AI.
@@ -54,6 +60,33 @@ def main(
     # Show welcome banner
     ui.show_banner()
 
+    # Show agent and MCP info if requested
+    if show_info:
+        ui.show_info("🤖 Agent Information:")
+        try:
+            from .mcp_integration import get_mcp_server_info
+
+            mcp_info = get_mcp_server_info()
+
+            ui.show_info(
+                f"Available Agents: CodebaseAnalyzer, JavaDecompiler, CodeQualityAnalyzer, DecompilationOrchestrator"
+            )
+            ui.show_info(f"MCP Server: {mcp_info['name']} v{mcp_info['version']}")
+            ui.show_info(
+                f"MCP Available: {'✅' if mcp_info['mcp_available'] else '❌'}"
+            )
+            ui.show_info(f"Tools Count: {len(mcp_info.get('tools', []))}")
+
+            if mcp_info["mcp_available"]:
+                ui.show_info("MCP Tools:")
+                for tool in mcp_info.get("tools", []):
+                    ui.show_info(f"  • {tool['name']}: {tool['description']}")
+
+        except Exception as e:
+            ui.show_error(f"Error getting agent info: {e}")
+
+        return  # Exit after showing info
+
     # Show configuration
     ui.show_config(input_file, output_dir, provider, verbose)
 
@@ -64,8 +97,15 @@ def main(
         parser = MapleIRParser()
 
         if verbose:
-            ui.show_info(f"Initializing {provider} agentic AI client...")
-        ai_client = AgenticAIClient(provider=provider, api_key=api_key)
+            ui.show_info(
+                f"Initializing {provider} agentic AI client with OpenAI Agents SDK..."
+            )
+        ai_client = AgenticAIClient(
+            provider_config={
+                "model": provider,
+            },
+            api_key=api_key,
+        )
 
         if verbose:
             ui.show_info("Setting up output directory...")
@@ -113,7 +153,13 @@ def main(
             written_files = []
 
             for i, class_name in enumerate(processing_order):
-                if class_name in ai_client.all_classes:
+                # Check if class exists in the context store
+                from .tools import get_context_store
+
+                context_store = get_context_store()
+                all_classes = context_store.get("all_classes", {})
+
+                if class_name in all_classes:
                     try:
                         # Show current progress
                         ui.show_info(

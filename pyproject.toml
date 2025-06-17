@@ -1,14 +1,15 @@
 [project]
 name = "mapleseek"
-version = "0.1.0"
-description = "MapleIR to Java source code decompiler using DeepSeek/OpenAI"
+version = "2.0.0"
+description = "Convert MapleIR SSA IR dumps to Java source code using agentic AI"
 readme = "README.md"
 requires-python = ">=3.10"
 dependencies = [
-    "openai>=1.86.0",
-    "click>=8.2.1",
-    "rich>=13.7.0",
-    "textual>=0.41.0",
+    "openai-agents[litellm]",
+ "litellm",
+ "click",
+ "rich",
+ "pydantic>=2.0",
 ]
 
 [project.scripts]
@@ -17,3 +18,6 @@ mapleseek = "mapleseek.cli:main"
 [build-system]
 requires = ["hatchling"]
 build-backend = "hatchling.build"
+
+[project.optional-dependencies]
+dev = ["pytest", "black", "ruff"]
