@@ -6,6 +6,8 @@
 
 MapleSeek is an experimental AI-slop powered decompiler that converts MapleIR SSA IR dumps back to readable Java source code using agentic ai slop. Slop for the purpose of slop, made by slop.
 
+![demo](.docs/demo-mapseek.gif)
+
 ## 📦 Installation
 
 ```bash
